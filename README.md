@@ -122,7 +122,3 @@ The model provides two main types of visualizations:
 - Ritchie, H., & Roser, M. (2024, February). Age structure. Our World in Data.
 - Centers for Disease Control and Prevention. (n.d.). Risk for COVID-19 infection, hospitalization, and death by age group.
 - Byrne, A. W., et al. (2020). Inferred duration of infectious period of SARS-CoV-2: Rapid scoping review and analysis of available evidence for asymptomatic and symptomatic COVID-19 cases.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
