@@ -1,113 +1,127 @@
 # COVID-19 Agent-Based Simulation Model
 
-An agent-based simulation model implemented in Python to study and analyze the spread of COVID-19, incorporating various factors such as asymptomatic transmission, social networks, and government interventions.
+An agent-based simulation model implemented in Python to study and analyze the spread of COVID-19, incorporating various factors such as age distribution, asymptomatic transmission, social networks, super-spreaders, virus variants, and government interventions.
 
-## Overview
+## Project Structure
 
-This project implements an Agent-Based Model (ABM) to simulate the spread of COVID-19 within a population. The simulation is designed to capture the complex dynamics of disease transmission while considering various real-world factors that influence the spread of the virus.
+The project is organized into four main parts:
 
-Key aspects of our simulation include:
-- Modeling of individual behaviors and interactions
-- Implementation of different health states (susceptible, infected, recovered)
-- Integration of government intervention effects
-- Analysis of transmission patterns and outbreak dynamics
+### Part 1: Base Model Setup
+- Implementation of 7 agent states:
+  - Unexposed
+  - Asymptomatic and contagious
+  - Symptomatic and contagious
+  - Asymptomatic and not contagious
+  - Post-COVID immune
+  - Naturally immune
+  - Death
+- Age-stratified mortality rates across 9 age groups
+- State transition probabilities and durations
+- Basic agent properties and behavior
 
-## Background
+### Part 2: Social Network Model
+- Implementation of Barabási-Albert scale-free network
+- Structured social interactions between agents
+- Behavior modification based on symptom status
+- Network-based transmission dynamics
 
-COVID-19 presents unique challenges for disease modeling, including:
-- Asymptomatic carriers
-- Varying onset of symptoms
-- Emergence of highly contagious variants
-- Complex transmission dynamics
+### Part 3: COVID-19 Attributes Enhancement
+- Super-spreader behavior modeling
+  - Increased interaction frequency
+  - Higher transmission probability
+  - Population distribution control
+- Variant strain implementation
+  - Modified transmission rates
+  - Adjusted mortality rates
+  - Strain-specific properties
 
-Our ABM approach is particularly suitable for COVID-19 simulation because it:
-- Treats each individual as an agent with unique interactions
-- Captures heterogeneous behavior patterns
-- Models various transmission environments (homes, workplaces, public spaces)
-- Adapts to changing intervention strategies
+### Part 4: Policy Impact Simulation
+- Dynamic interaction rate adjustments
+- Quarantine period implementation (Days 10-25)
+- Post-quarantine behavior modeling
+- Policy effectiveness analysis
 
-## Features
+## Requirements
 
-### Health States
-- Unexposed
-- Asymptomatic and contagious
-- Symptomatic and contagious
-- Asymptomatic and non-contagious
-- Post-COVID immune
-- Naturally immune
-- Deceased
-
-### Simulation Components
-- Dynamic visualization of disease progression
-- Real-time tracking of population states
-- Analysis of intervention effectiveness
-- Measurement of key epidemiological parameters
-
-### Model Parameters
-- Infection probability (default: 0.2)
-- Social interaction rates
-- Recovery and mortality rates
-- Intervention timing and intensity
-- Population characteristics
-
-## Installation
-
-```bash
-# Clone the repository
-git clone [repository-url]
-cd covid-abm-simulation
-
-# Install required packages
-pip install -r requirements.txt
+```python
+import numpy as np
+import random
+import math
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
+from collections import Counter
 ```
+
+## Key Features
+
+### Age-Based Mortality
+- 9 age groups with different mortality rates
+- Age-specific risk factors
+- Population distribution based on real-world data
+
+### Social Network Structure
+- Scale-free network implementation
+- Neighbor-based interactions
+- Community structure modeling
+
+### Disease States
+- Asymptomatic carrier modeling
+- Variable infection periods
+- Immunity status tracking
+- State transition probabilities
+
+### Policy Implementation
+- Flexible interaction rate adjustment
+- Time-based policy changes
+- Quarantine period effects
 
 ## Usage
 
 ```python
-# Import the simulation module
-from covid_simulation import CovidSimulation
+# Initialize base parameters
+numAgents = 1000
+naturalImmunity = 0.01
+numInteractions = 10
+numDays = 50
+contagion_prob = 0.05
 
-# Initialize simulation with parameters
-sim = CovidSimulation(
-    population_size=1000,
-    infection_probability=0.2,
-    simulation_days=50
-)
+# Create social network
+social_network = create_social_network(numAgents, steps=2, power=1)
 
-# Run the simulation
-sim.run()
+# Initialize agents
+agents = initialize_agents(numAgents)
+agents = infect_initial_agents(agents)
 
-# Generate visualizations
-sim.plot_results()
+# Run simulation
+disthistory_df = simulate_spread_with_network(social_network, agents, num_interactions, numDays)
 ```
 
-## Requirements
-- Python 3.8+
-- NumPy
-- Pandas
-- Matplotlib
-- NetworkX (for social network modeling)
-- Seaborn (for visualization)
+## Model Parameters
 
-## Results Analysis
+- `numAgents`: Total number of agents in simulation (default: 1000)
+- `naturalImmunity`: Proportion of naturally immune agents (default: 0.01)
+- `numInteractions`: Daily interactions per agent (default: 10)
+- `contagion_prob`: Base infection probability (default: 0.05)
+- `super_spreader_prob`: Probability of being a super-spreader (default: 0.05)
+- `variant_contagion_prob`: Variant strain infection probability (default: 0.2)
+- `variant_mortality_multiplier`: Increased mortality for variants (default: 1.5)
 
-The simulation provides insights into:
-- Peak infection timing and magnitude
-- Effects of various intervention strategies
-- Development of population immunity
-- Impact of social networks on transmission
-- Mortality patterns and trends
+## Visualization
+
+The model provides two main types of visualizations:
+1. State Distribution Over Time - Stacked bar chart showing population in each state
+2. SIR Model Over Time - Line plot showing susceptible, infected, and recovered populations
 
 ## Authors
+
 - Rui Qin (24121014)
-- Qianqian Li (2377074)
 
 ## References
 
-1. Kermack, W. O., & McKendrick, A. G. (1927). A contribution to the mathematical theory of epidemics.
-2. He, S., Tang, S., & Rong, L. (2020). A discrete stochastic model of the COVID-19 outbreak: Forecast and control.
-3. Epstein, J. M. (2009). Modelling to contain pandemics.
-4. Ferguson, N. M., et al. (2020). Impact of non-pharmaceutical interventions (NPIs) to reduce COVID-19 mortality and healthcare demand.
+- Ritchie, H., & Roser, M. (2024, February). Age structure. Our World in Data.
+- Centers for Disease Control and Prevention. (n.d.). Risk for COVID-19 infection, hospitalization, and death by age group.
+- Byrne, A. W., et al. (2020). Inferred duration of infectious period of SARS-CoV-2: Rapid scoping review and analysis of available evidence for asymptomatic and symptomatic COVID-19 cases.
 
 ## License
 
